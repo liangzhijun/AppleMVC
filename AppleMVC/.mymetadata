@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="AppleMVC"
+  id="myeclipse.1376057029197"
+  context-root="/maven_test"
+  j2ee-spec="6.0"
+  archive="AppleMVC.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+

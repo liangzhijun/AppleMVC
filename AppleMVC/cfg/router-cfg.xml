@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<router>
+
+	<!-- <route path="/signIn.action" className="com.example.controller.LoginController" method="login"/> -->
+	<route path="/AppleMVC/signIn.action" className="com.example.controller.LoginController" method="login"/>
+	<route path="/AppleMVC/exit.action" className="com.example.controller.LoginController" method="exit"/>
+	
+</router>
