@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
 
 public  class RouterCfgDomParse
 {
-		public static void domParse(Map<String, String> methodNameMap, Map<String, String> classNameMap, Map<String, Object> attributesMap, String xml)
+		public static void domParse(Map<String, Object> attributesMap, Map<String, String> methodNameMap, Map<String, String> classNameMap, Map<String, String> returnTypeMap, String xml)
 			throws Exception
 			{
 				 DocumentBuilderFactory domfac = DocumentBuilderFactory.newInstance();
@@ -45,7 +45,9 @@ public  class RouterCfgDomParse
 								 String path = routerCfgNode.getAttributes().getNamedItem("path").getNodeValue();
 								 String className = routerCfgNode.getAttributes().getNamedItem("className").getNodeValue();
 								 String methodName = routerCfgNode.getAttributes().getNamedItem("method").getNodeValue();
+								 String returnType = routerCfgNode.getAttributes().getNamedItem("returnType").getNodeValue();
 								 
+								 returnTypeMap.put(path, returnType);
 								 methodNameMap.put(path, methodName);
 								 classNameMap.put(path, className);
 								 
