@@ -20,13 +20,13 @@ public class DispatcherServlet extends HttpServlet
 	//初始化时用map储存所有cnotroller控制器的实例（单例）
 	private Map<String, Object> attributesMap;
 		
-	//初始化时用map储存所有请求执行方法名。key为请求地址、请求执行的方法名为value;
+	//初始化时用map储存所有请求执行方法名。key=requestUri,value=methodName
 	private Map<String, String> methodNameMap;
 	
-	//初始化时用map储存所有请求所调用的控制器类名。请求地址为key、请求执行的控制器类名为value;
+	//key=requestUri,value=className
 	private Map<String, String> classNameMap;
 	
-	//初始化时用map储存所有请求的返回类型。key为请求地址、请求执行的返回类型为value;
+	//key=requestUri,value=returnType
 	private Map<String, String> returnTypeMap;
 	
 	@Override
