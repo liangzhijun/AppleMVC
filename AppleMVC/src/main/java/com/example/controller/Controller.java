@@ -35,8 +35,9 @@ public class Controller
 	
 	public String getImage(HttpServletRequest request, HttpServletResponse response)
 	{
+		String imagePath = request.getParameter("imagePath");
 		System.out.println(" return Image successfully.");
-		return "D://MyLibrary/upload/10001/photo.jpg";
+		return imagePath;
 	}
 	
 	public String getFile(HttpServletRequest request, HttpServletResponse response)
