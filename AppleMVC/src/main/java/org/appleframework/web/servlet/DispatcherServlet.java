@@ -19,28 +19,20 @@ public class DispatcherServlet extends HttpServlet
 {
 	//初始化时用map储存所有cnotroller控制器的实例（单例）
 	private Map<String, Object> attributesMap;
-		
-	//初始化时用map储存所有请求执行方法名。key=requestUri,value=methodName
-	private Map<String, String> methodNameMap;
-	
-	//key=requestUri,value=className
-	private Map<String, String> classNameMap;
-	
-	//key=requestUri,value=returnType
-	private Map<String, String> returnTypeMap;
+	//初始化时用map储存路由配置文档路由记录
+	private Map<String, Route> routeMap;
 	
 	@Override
 	public void init()
 	{
-		methodNameMap = new HashMap<String, String>();
-		returnTypeMap = new HashMap<String, String>();
-		classNameMap = new HashMap<String, String>();
 		attributesMap = new HashMap<String, Object>();
+		
+		routeMap = new HashMap<String, Route>();
 		
 		try
 		{
-			//解析路油配置文档（router-cfg.xml），在配置文档里做请求的映射（不使用注释的方法）
-			RouterCfgDomParse.domParse(attributesMap, methodNameMap, classNameMap, returnTypeMap, "cfg/router-cfg.xml");
+			//解析路由配置文档（router-cfg.xml），在配置文档里做请求的映射（不使用注释的方法）
+			RouterCfgDomParse.domParse(routeMap, attributesMap, "cfg/router-cfg.xml");
 		}
 		catch (Exception e)
 		{
@@ -120,16 +112,16 @@ public class DispatcherServlet extends HttpServlet
 		String requestUri = request.getRequestURI();
 		
 		//取得contrller实例名
-		String className = classNameMap.get(requestUri);
+		String className = routeMap.get(requestUri).className;
 		
 		//取得contrller实例
 		Object contrller = attributesMap.get(className);
 		
 		//取得contrller实例将要调用的方法名
-		String methodName = methodNameMap.get(requestUri);
+		String methodName = routeMap.get(requestUri).methodName;
 		
-		//取得contrller实例将要调用方法的返回类型
-		String returnType = returnTypeMap.get(requestUri);
+		//取得contrller实例将要调用方法的返回（输出）类型
+		String outputType = routeMap.get(requestUri).outputType;
 		
 		Class<?> classType = contrller.getClass();
 		Method invokeMethod = null;
@@ -165,13 +157,13 @@ public class DispatcherServlet extends HttpServlet
 			e.printStackTrace();
 		}
 		
-		if(returnType.equals("view"))
+		if(outputType.equals("view"))
 		{
 			RequestDispatcher rd = request.getRequestDispatcher((String)forwardPath);
 			
 			rd.forward(request, response);
 		}
-		else if(returnType.equals("text"))
+		else if(outputType.equals("text"))
 		{
 			PrintWriter out = response.getWriter();
 			
@@ -179,7 +171,7 @@ public class DispatcherServlet extends HttpServlet
 			
 			out.flush();
 		}
-		else if(returnType.equals("image"))
+		else if(outputType.equals("image"))
 		{
 			FileInputStream is = new FileInputStream((String)forwardPath);
 			response.setContentType("image/*");   
@@ -196,7 +188,7 @@ public class DispatcherServlet extends HttpServlet
 		    os.close();   
 		    is.close();
 		}
-		else if(returnType.equals("file"))
+		else if(outputType.equals("file"))
 		{
 			FileInputStream is = new FileInputStream((String)forwardPath);
 			response.setContentType("file/*");   

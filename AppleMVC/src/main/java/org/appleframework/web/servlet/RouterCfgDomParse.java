@@ -16,9 +16,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/*Tool：路由配置文档（router-cfg.xml）读取工具*/
 public  class RouterCfgDomParse
 {
-		public static void domParse(Map<String, Object> attributesMap, Map<String, String> methodNameMap, Map<String, String> classNameMap, Map<String, String> returnTypeMap, String xml)
+		public static void domParse(Map<String, Route> routeMap, Map<String, Object> attributesMap, String xml)
 			throws Exception
 			{
 				 DocumentBuilderFactory domfac = DocumentBuilderFactory.newInstance();
@@ -32,6 +33,7 @@ public  class RouterCfgDomParse
 					 Document doc = dombuilder.parse(is);
 
 					 Element root = doc.getDocumentElement();
+					 
 					 NodeList routerCfgNodeList = root.getChildNodes();
 
 					 if(routerCfgNodeList != null)
@@ -43,13 +45,12 @@ public  class RouterCfgDomParse
 							 if(routerCfgNode.getNodeType() == Node.ELEMENT_NODE)
 							 {
 								 String path = routerCfgNode.getAttributes().getNamedItem("path").getNodeValue();
-								 String className = routerCfgNode.getAttributes().getNamedItem("className").getNodeValue();
+								 String className = routerCfgNode.getAttributes().getNamedItem("class-name").getNodeValue();
 								 String methodName = routerCfgNode.getAttributes().getNamedItem("method").getNodeValue();
-								 String returnType = routerCfgNode.getAttributes().getNamedItem("returnType").getNodeValue();
+								 String outputType = routerCfgNode.getAttributes().getNamedItem("output-type").getNodeValue();
 								 
-								 returnTypeMap.put(path, returnType);
-								 methodNameMap.put(path, methodName);
-								 classNameMap.put(path, className);
+								 Route route = new Route(path, className, methodName, outputType);
+								 routeMap.put(path, route);
 								 
 								 Class<?> classType = Class.forName(className);
 									
