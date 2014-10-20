@@ -29,21 +29,21 @@ public class Controller
 	public String getText(HttpServletRequest request, HttpServletResponse response)
 	{
 		String text = request.getParameter("text");
-		System.out.println(" return Text successfully.");
+		System.out.println(" output Text successfully.");
 		return text;
 	}
 	
 	public String getImage(HttpServletRequest request, HttpServletResponse response)
 	{
 		String imagePath = request.getParameter("imagePath");
-		System.out.println(" return Image successfully.");
+		System.out.println(" output Image successfully.");
 		return imagePath;
 	}
 	
 	public String getFile(HttpServletRequest request, HttpServletResponse response)
 	{
 		String filePath = request.getParameter("filePath");
-		System.out.println(" return File successfully.");
+		System.out.println(" output File successfully.");
 		return filePath;
 	}
 }

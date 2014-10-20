@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DispatcherServlet extends HttpServlet 
+public class DispatcherTemplate extends HttpServlet 
 {
 	//初始化时用List储存路由配置文档路由记录
 	private List<Route> routeList;
@@ -120,38 +120,6 @@ public class DispatcherServlet extends HttpServlet
 
 		
 		/*begin-------route code-------*/
-
-		if("/AppleMVC/signIn.action".equals(requestUri))
-        {
-			com.example.controller.Controller controller = new com.example.controller.Controller();
-
-			forwardPath = controller.login(request, response);
-        }
-		else if("/AppleMVC/exit.action".equals(requestUri))
-        {
-			com.example.controller.Controller controller = new com.example.controller.Controller();
-
-			forwardPath = controller.exit(request, response);
-        }
-		else if("/AppleMVC/getText.action".equals(requestUri))
-        {
-			com.example.controller.Controller controller = new com.example.controller.Controller();
-
-			forwardPath = controller.getText(request, response);
-        }
-		else if("/AppleMVC/getImage.action".equals(requestUri))
-        {
-			com.example.controller.Controller controller = new com.example.controller.Controller();
-
-			forwardPath = controller.getImage(request, response);
-        }
-		else if("/AppleMVC/getFile.action".equals(requestUri))
-        {
-			com.example.controller.Controller controller = new com.example.controller.Controller();
-
-			forwardPath = controller.getFile(request, response);
-        }
-
 		
 
 		/*-------route code-------end*/
