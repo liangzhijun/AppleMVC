@@ -106,24 +106,24 @@ public class DispatcherServlet extends HttpServlet
 		doService(request, response);
 	}
 	
-	//通过利用反射为调用contrller实例进行请求映射
+	//通过利用反射为调用controller实例进行请求映射
 	protected void doService(HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException 
 	{
 		String requestUri = request.getRequestURI();
 		
-		//取得contrller实例名
+		//取得controller实例名
 		String className = routeMap.get(requestUri).className;
 		
-		//取得contrller实例
-		Object contrller = attributesMap.get(className);
+		//取得controller实例
+		Object controller = attributesMap.get(className);
 		
-		//取得contrller实例将要调用的方法名
+		//取得controller实例将要调用的方法名
 		String methodName = routeMap.get(requestUri).methodName;
 		
-		//取得contrller实例将要调用方法的返回（输出）类型
+		//取得controller实例将要调用方法的返回（输出）类型
 		String outputType = routeMap.get(requestUri).outputType;
 		
-		Class<?> classType = contrller.getClass();
+		Class<?> classType = controller.getClass();
 		Method invokeMethod = null;
 		try
 		{
@@ -142,7 +142,7 @@ public class DispatcherServlet extends HttpServlet
 		try
 		{
 			
-			forwardPath = invokeMethod.invoke(contrller, request, response);
+			forwardPath = invokeMethod.invoke(controller, request, response);
 		}
 		catch (IllegalArgumentException e)
 		{
