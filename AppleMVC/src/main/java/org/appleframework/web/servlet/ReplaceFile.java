@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ReplaceFile
@@ -18,7 +19,7 @@ public class ReplaceFile
         try
 		{
 			//解析路由配置文档（router-cfg.xml），在配置文档里做请求的映射（不使用注释的方法）
-			RouterCfgDomParse.domParse(routeList, "cfg/router-cfg.xml");
+			RouterCfgDomParse.domParse(routeList, new HashMap<String, Object>(), "cfg/router-cfg.xml");
 		}
 		catch (Exception e)
 		{
@@ -30,26 +31,22 @@ public class ReplaceFile
 				 	"\n" +
 			        "		if(\""+ routeList.get(0).path + "\".equals(requestUri))\n" +
 			        "        {\n" +
-			        "			" +	 routeList.get(0).className + " controller = new " +  routeList.get(0).className + "();\n" +
-			        "\n" +
-			        "			forwardPath = controller"  + "." +  routeList.get(0).methodName + "(request, response);\n" +	      	    		
+			        "			forwardPath = ((" +  routeList.get(0).className + ")controller)"  + "." +  routeList.get(0).methodName + "(request, response);\n" +	      	    		
 			        "        }\n" ;
 			        
 			        for(int i = 1; i < routeList.size(); i++)
 			        {
 			        	String path = routeList.get(i).path;
-			        	//取得contrller实例名
+			        	//取得controller实例名
 			    		String className = routeList.get(i).className;
 			    		
-			    		//取得contrller实例将要调用的方法名
+			    		//取得controller实例将要调用的方法名
 			    		String methodName = routeList.get(i).methodName;
 			    		
 			    		routeCode += 
 			    		"		else if(\""+ path + "\".equals(requestUri))\n" +
 			    		"        {\n" +
-			    		"			" +	className + " controller = new " + className + "();\n" +	
-			    		"\n" +
-			    		"			forwardPath = controller."+ methodName + "(request, response);\n" +      	    		
+			    		"			forwardPath = ((" + className + ")controller)."+ methodName + "(request, response);\n" +      	    		
 			    		"        }\n";
 			        }
 			        

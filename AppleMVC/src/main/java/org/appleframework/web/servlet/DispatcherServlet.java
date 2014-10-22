@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,18 +17,23 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DispatcherServlet extends HttpServlet 
 {
+	//初始化时用map储存所有cnotroller控制器的实例（单例）
+	private Map<String, Object> attributesMap;
+	
 	//初始化时用List储存路由配置文档路由记录
 	private List<Route> routeList;
 
 	@Override
 	public void init()
 	{
+		attributesMap = new HashMap<String, Object>();
+		
 		routeList = new ArrayList<Route>();		
 		
 		try
 		{
 			//解析路由配置文档（router-cfg.xml），在配置文档里做请求的映射（不使用注释的方法）
-			RouterCfgDomParse.domParse(routeList, "cfg/router-cfg.xml");
+			RouterCfgDomParse.domParse(routeList, attributesMap, "cfg/router-cfg.xml");
 		}
 		catch (Exception e)
 		{
@@ -99,11 +106,14 @@ public class DispatcherServlet extends HttpServlet
 		doService(request, response);
 	}
 
-	//通过利用反射为调用contrller实例进行请求映射
+	//通过利用反射为调用controller实例进行请求映射
 	protected void doService(HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException 
 	{
 		String requestUri = request.getRequestURI();
 
+		//取得controller实例
+		Object controller =  null;
+				
 		//取得controller实例将要调用方法的返回（输出）类型
 		String outputType = null;
 		
@@ -112,6 +122,11 @@ public class DispatcherServlet extends HttpServlet
 			if(r.path.equals(requestUri))
 			{
 				outputType = r.outputType;
+				
+				//取得controller实例名
+				String className = r.className;
+				
+				controller = attributesMap.get(className);
 				break;
 			}
 		}
@@ -123,33 +138,23 @@ public class DispatcherServlet extends HttpServlet
 
 		if("/AppleMVC/signIn.action".equals(requestUri))
         {
-			com.example.controller.Controller controller = new com.example.controller.Controller();
-
-			forwardPath = controller.login(request, response);
+			forwardPath = ((com.example.controller.Controller)controller).login(request, response);
         }
 		else if("/AppleMVC/exit.action".equals(requestUri))
         {
-			com.example.controller.Controller controller = new com.example.controller.Controller();
-
-			forwardPath = controller.exit(request, response);
+			forwardPath = ((com.example.controller.Controller)controller).exit(request, response);
         }
 		else if("/AppleMVC/getText.action".equals(requestUri))
         {
-			com.example.controller.Controller controller = new com.example.controller.Controller();
-
-			forwardPath = controller.getText(request, response);
+			forwardPath = ((com.example.controller.Controller)controller).getText(request, response);
         }
 		else if("/AppleMVC/getImage.action".equals(requestUri))
         {
-			com.example.controller.Controller controller = new com.example.controller.Controller();
-
-			forwardPath = controller.getImage(request, response);
+			forwardPath = ((com.example.controller.Controller)controller).getImage(request, response);
         }
 		else if("/AppleMVC/getFile.action".equals(requestUri))
         {
-			com.example.controller.Controller controller = new com.example.controller.Controller();
-
-			forwardPath = controller.getFile(request, response);
+			forwardPath = ((com.example.controller.Controller)controller).getFile(request, response);
         }
 
 		

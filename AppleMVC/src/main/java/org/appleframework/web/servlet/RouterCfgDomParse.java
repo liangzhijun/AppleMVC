@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,7 +20,7 @@ import org.xml.sax.SAXException;
 /*Tool：路由配置文档（router-cfg.xml）读取工具*/
 public  class RouterCfgDomParse
 {
-		public static void domParse(List<Route> routeList, String xml)
+		public static void domParse(List<Route> routeList, Map<String, Object> attributesMap, String xml)
 			throws Exception
 			{
 				 DocumentBuilderFactory domfac = DocumentBuilderFactory.newInstance();
@@ -51,6 +52,12 @@ public  class RouterCfgDomParse
 								 
 								 Route route = new Route(path, className, methodName, outputType);
 								 routeList.add(route);
+								 
+								 Class<?> classType = Class.forName(className);
+									
+								 Object object = classType.newInstance();
+								 
+								 attributesMap.put(className, object);
 								 
 								 System.out.println("path: "+path+ "----------" +className+ "----------" +methodName);
 							 }
