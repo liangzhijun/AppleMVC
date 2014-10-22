@@ -3,7 +3,7 @@
   type="WEB"
   name="AppleMVC"
   id="myeclipse.1376057029197"
-  context-root="/maven_test"
+  context-root="/AppleMVC"
   j2ee-spec="6.0"
   archive="AppleMVC.war">
   <attributes>
