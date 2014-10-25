@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 路由配置文档（请求映射） -->
+<!-- output-type的可选值（有四种类型）分别是view和text,image,还有file -->
+<router>
+
+	<!-- <route path="/signIn.action" class-name="com.example.controller.LoginController" method="login" output-type="view"/> -->
+	<route path="/AppleMVC/signIn.action" class-name="com.example.controller.Controller" method="login" output-type="view"/>
+	<route path="/AppleMVC/exit.action" class-name="com.example.controller.Controller" method="exit" output-type="view"/>
+	<route path="/AppleMVC/getText.action" class-name="com.example.controller.Controller" method="getText" output-type="text"/>
+	<route path="/AppleMVC/getImage.action" class-name="com.example.controller.Controller" method="getImage" output-type="image"/>
+	<route path="/AppleMVC/getFile.action" class-name="com.example.controller.Controller" method="getFile" output-type="file"/>
+	
+</router>
