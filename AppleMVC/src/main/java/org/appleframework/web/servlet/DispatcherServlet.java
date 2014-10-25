@@ -4,12 +4,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +34,12 @@ public class DispatcherServlet extends HttpServlet
 		
 		try
 		{
+			ServletContext context = this.getServletContext();
+			
+			String path =context.getRealPath("WEB-INF/classes/router-cfg.xml"); 
+			
 			//解析路由配置文档（router-cfg.xml），在配置文档里做请求的映射（不使用注释的方法）
-			RouterCfgDomParse.domParse(routeList, attributesMap, "cfg/router-cfg.xml");
+			RouterCfgDomParse.domParse(routeList, attributesMap, path);
 		}
 		catch (Exception e)
 		{
