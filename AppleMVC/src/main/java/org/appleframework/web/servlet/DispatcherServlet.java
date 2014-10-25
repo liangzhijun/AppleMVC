@@ -2,9 +2,9 @@ package org.appleframework.web.servlet;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,10 +36,14 @@ public class DispatcherServlet extends HttpServlet
 		{
 			ServletContext context = this.getServletContext();
 			
-			String path =context.getRealPath("WEB-INF/classes/router-cfg.xml"); 
+			/*getRealPath方法已经不建议使用*/
+			//String realPath =context.getRealPath("WEB-INF/classes/router-cfg.xml"); 
+			
+			/*推荐ServletContext.getResourceAsStream*/
+			InputStream domIs = context.getResourceAsStream("WEB-INF/classes/router-cfg.xml");
 			
 			//解析路由配置文档（router-cfg.xml），在配置文档里做请求的映射（不使用注释的方法）
-			RouterCfgDomParse.domParse(routeList, attributesMap, path);
+			RouterCfgDomParse.domParse(routeList, attributesMap, domIs);
 		}
 		catch (Exception e)
 		{

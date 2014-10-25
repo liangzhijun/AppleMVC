@@ -1,6 +1,7 @@
 package org.appleframework.web.servlet;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -19,7 +20,7 @@ public class ReplaceFile
         try
 		{
 			//解析路由配置文档（router-cfg.xml），在配置文档里做请求的映射（不使用注释的方法）
-			RouterCfgDomParse.domParse(routeList, new HashMap<String, Object>(), "cfg/router-cfg.xml");
+			RouterCfgDomParse.domParse(routeList, new HashMap<String, Object>(), new FileInputStream("src/main/cfg/router-cfg.xml"));
 		}
 		catch (Exception e)
 		{

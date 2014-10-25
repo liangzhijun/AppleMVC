@@ -1,6 +1,5 @@
 package org.appleframework.web.servlet;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +19,7 @@ import org.xml.sax.SAXException;
 /*Tool：路由配置文档（router-cfg.xml）读取工具*/
 public  class RouterCfgDomParse
 {
-		public static void domParse(List<Route> routeList, Map<String, Object> attributesMap, String xml)
+		public static void domParse(List<Route> routeList, Map<String, Object> attributesMap, InputStream domIs)
 			throws Exception
 			{
 				 DocumentBuilderFactory domfac = DocumentBuilderFactory.newInstance();
@@ -29,9 +28,9 @@ public  class RouterCfgDomParse
 				 {
 					 DocumentBuilder dombuilder = domfac.newDocumentBuilder();
 
-					 InputStream is = new FileInputStream(xml);
+					 //InputStream is = new FileInputStream(xml);
 
-					 Document doc = dombuilder.parse(is);
+					 Document doc = dombuilder.parse(domIs);
 
 					 Element root = doc.getDocumentElement();
 					 
