@@ -2,6 +2,7 @@
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -34,10 +35,14 @@ public class DispatcherServlet extends HttpServlet
 		{
 			ServletContext context = this.getServletContext();
 			
-			String path =context.getRealPath("WEB-INF/classes/router-cfg.xml"); 
+			/*getRealPath方法已经不建议使用*/
+			//String realPath =context.getRealPath("WEB-INF/classes/router-cfg.xml"); 
 			
-			//解析路由配置文档（router-cfg.xml），在配置文档里做请求的映射（不使用注释的方法）
-			RouterCfgDomParse.domParse(routeMap, attributesMap, path);
+			/*推荐ServletContext.getResourceAsStream*/
+			InputStream domIs = context.getResourceAsStream("WEB-INF/classes/router-cfg.xml");
+			
+			/*解析路由配置文档（router-cfg.xml），在配置文档里做请求的映射（不使用注释的方法）*/
+			RouterCfgDomParse.xmlDomParse(routeMap, attributesMap, domIs);
 		}
 		catch (Exception e)
 		{
@@ -111,7 +116,10 @@ public class DispatcherServlet extends HttpServlet
 		doService(request, response);
 	}
 	
-	//通过利用反射为调用controller实例进行请求映射
+	/**
+	 * 通过利用反射为调用controller实例进行请求映射
+	 * @see #
+	 */
 	protected void doService(HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException 
 	{
 		String requestUri = request.getRequestURI();

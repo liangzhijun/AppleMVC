@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.servlet.ServletContext;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -19,7 +20,7 @@ import org.xml.sax.SAXException;
 /*Tool：路由配置文档（router-cfg.xml）读取工具*/
 public  class RouterCfgDomParse
 {
-		public static void domParse(Map<String, Route> routeMap, Map<String, Object> attributesMap, String xml)
+		public static void xmlDomParse(Map<String, Route> routeMap, Map<String, Object> attributesMap, InputStream domIs)
 			throws Exception
 			{
 				 DocumentBuilderFactory domfac = DocumentBuilderFactory.newInstance();
@@ -27,10 +28,10 @@ public  class RouterCfgDomParse
 				 try 
 				 {
 					 DocumentBuilder dombuilder = domfac.newDocumentBuilder();
+					 	
+					 //InputStream domIs = new FileInputStream(xmlPath);
 
-					 InputStream is = new FileInputStream(xml);
-
-					 Document doc = dombuilder.parse(is);
+					 Document doc = dombuilder.parse(domIs);
 
 					 Element root = doc.getDocumentElement();
 					 
