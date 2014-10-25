@@ -35,8 +35,11 @@ public class DispatcherServlet extends HttpServlet
 		{
 			ServletContext context = this.getServletContext();
 			
-			/*getRealPath方法已经不建议使用*/
+			/*getRealPath方法已经不建议使用，我们常用的getRealPath("/")方法，在.war包发布时，就会失效。会返回null。*/
 			//String realPath =context.getRealPath("WEB-INF/classes/router-cfg.xml"); 
+			
+			/*获取到classes目录的全路径*/
+			//String classpath = this.getClass().getClassLoader().getResource("/").getPath(); 
 			
 			/*推荐ServletContext.getResourceAsStream*/
 			InputStream domIs = context.getResourceAsStream("WEB-INF/classes/router-cfg.xml");
